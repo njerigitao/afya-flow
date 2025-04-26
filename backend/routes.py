@@ -32,9 +32,9 @@ def enroll_client(id):
 
 @main.route("/clients/search", methods=["GET"])
 def search_clients():
-    name = request.args.get("name", "")
-    clients = Client.query.filter(Client.name.ilike(f"%{name}%")).all()
-    return jsonify([{"id": c.id, "name": c.name} for c in clients])
+    name = request.args.get("name")
+    clients = Client.query.filter(Client.name.ilike(f"%{name}%")).first()
+    return jsonify([{"name": c.name, "age": c.age, "gender": c.gender, "programs": [program.name for program in client.programs]} for c in clients])
 
 @main.route("/clients/<int:id>", methods=["GET"])
 def client_profile(id):
