@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import  { useState } from "react";
 import { Box, Heading, List, ListItem } from "@chakra-ui/react";
 
 function Programs() {

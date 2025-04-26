@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from models import db, Client, Program
 
-main = Blueprint('main', __name__, url_prefix="/api")
+main = Blueprint('main', __name__)
 
 @main.route("/programs", methods=["POST"])
 def create_program():
