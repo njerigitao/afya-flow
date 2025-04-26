@@ -1,28 +1,41 @@
-import  { useState } from "react";
-import { Box, Heading, List, ListItem } from "@chakra-ui/react";
+import React, { useState } from "react";
+import { Box, Button, Input, FormControl, FormLabel } from "@chakra-ui/react";
 
-function Programs() {
-  const [programs, setPrograms] = useState([]);
+const Programs = () => {
+    const [programName, setProgramName] = useState('');
+  
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      const response = await fetch('http://localhost:5000/api/v1/programs', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: programName }),
+      });
+  
+      if (response.ok) {
+        alert('Program created!');
+        setProgramName(''); // Clear input field after successful submission
+      } else {
+        alert('Error creating program');
+      }
+    };
+  
+    return (
+      <Box>
+        <FormControl>
+          <FormLabel>Program Name</FormLabel>
+          <Input
+            type="text"
+            value={programName}
+            onChange={(e) => setProgramName(e.target.value)}
+          />
+        </FormControl>
+        <Button onClick={handleSubmit}>Create Program</Button>
+      </Box>
+    );
+  };
+  
 
-  useEffect(() => {
-    fetch("http://localhost:5000/api/v1/programs")
-      .then(res => res.json())
-      .then(setPrograms);
-  }, []);
 
-  return (
-    <Box p={6} maxW="xl" mx="auto">
-      <Heading mb={4}>Programs</Heading>
-
-      <List spacing={2}>
-        {programs.map((p) => (
-          <ListItem key={p.id} bg="white" p={3} rounded="md" shadow="md">
-            {p.name}
-          </ListItem>
-        ))}
-      </List>
-    </Box>
-  );
-}
 
 export default Programs;
