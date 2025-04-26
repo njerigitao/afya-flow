@@ -1,8 +1,8 @@
 import { Routes, Route, Link as RouterLink } from "react-router-dom";
 import { Box, Flex, Heading, Link, Spacer } from "@chakra-ui/react";
-import Home from "./pages/Home";
-import Programs from "./pages/Programs";
-import Profile from "./pages/Profile";
+import Home from "./Home";
+import Programs from "./Programs";
+import Profile from "./Profile";
 
 function App() {
   return (
