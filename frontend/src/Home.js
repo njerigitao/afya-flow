@@ -1,56 +1,63 @@
-import { useEffect, useState } from "react";
-import { Box, Button, Flex, Heading, Input, Link, List, ListItem, Spacer } from "@chakra-ui/react";
-import { Link as RouterLink } from "react-router-dom";
+import React, { useState } from 'react';
+import { Box, Button, Input, FormControl, FormLabel } from '@chakra-ui/react';
 
-function Home() {
-  const [clients, setClients] = useState([]);
-  const [name, setName] = useState("");
+const Home = () => {
+  const [clientName, setClientName] = useState('');
+  const [clientGender, setClientGender] = useState('');
+  const [clientAge, setClientAge] = useState('');
 
-  useEffect(() => {
-    fetch("http://localhost:5000/api/v1/clients")
-      .then(res => res.json())
-      .then(setClients);
-  }, []);
-
-  const addClient = async () => {
-    await fetch("http://localhost:5000/api/v1/clients", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name, age: 30, gender: "Female" }),
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const response = await fetch('http://localhost:5000/api/v1/clients', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: clientName,
+        gender: clientGender,
+        age: clientAge,
+      }),
     });
-    window.location.reload();
+
+    if (response.ok) {
+      alert('Client registered!');
+      setClientName('');
+      setClientGender('');
+      setClientAge('');
+    } else {
+      alert('Error registering client');
+    }
   };
 
   return (
-    <Box p={6} maxW="xl" mx="auto">
-      <Heading mb={4}>Clients</Heading>
-
-      <Flex mb={4} gap={2}>
+    <Box>
+      <FormControl>
+        <FormLabel>Name</FormLabel>
         <Input
-          placeholder="Enter client name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          type="text"
+          value={clientName}
+          onChange={(e) => setClientName(e.target.value)}
         />
-        <Button colorScheme="blue" onClick={addClient}>
-          Add
-        </Button>
-      </Flex>
-
-      <List spacing={2}>
-        {clients.map((c) => (
-          <ListItem key={c.id}>
-            <Flex bg="white" p={3} rounded="md" shadow="md" align="center">
-              <Box>{c.name}</Box>
-              <Spacer />
-              <Link as={RouterLink} to={`/profile/${c.id}`} color="blue.500" fontWeight="bold">
-                View
-              </Link>
-            </Flex>
-          </ListItem>
-        ))}
-      </List>
+      </FormControl>
+      <FormControl>
+        <FormLabel>Gender</FormLabel>
+        <Input
+          type="text"
+          value={clientGender}
+          onChange={(e) => setClientGender(e.target.value)}
+        />
+      </FormControl>
+      <FormControl>
+        <FormLabel>Age</FormLabel>
+        <Input
+          type="number"
+          value={clientAge}
+          onChange={(e) => setClientAge(e.target.value)}
+        />
+      </FormControl>
+      <Button onClick={handleSubmit}>Register Client</Button>
     </Box>
   );
-}
+};
 
 export default Home;
+
