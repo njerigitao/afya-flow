@@ -20,7 +20,7 @@ function App() {
           <Link as={RouterLink} to="/programs" _hover={{ textDecoration: "underline" }}>
             Programs
           </Link>
-          <Link as={RouterLink} to="/profile" _hover={{ textDecoration: "underline"}}>
+          <Link as={RouterLink} to="/profile/1" _hover={{ textDecoration: "underline"}}>
           Enroll
           </Link>
         </Flex>
@@ -29,7 +29,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/programs" element={<Programs />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/profile/:id" element={<Profile />} />
       </Routes>
     </Box>
   );

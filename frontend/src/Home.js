@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Button, Input, FormControl, FormLabel, Text } from '@chakra-ui/react';
+import { useNavigate } from 'react-router-dom'; 
 
 const Home = () => {
   const [clientName, setClientName] = useState('');
@@ -8,13 +9,15 @@ const Home = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchedClient, setSearchedClient] = useState(null);
 
+  const navigate = useNavigate(); 
+
   // Search client by name
   const handleSearch = async (e) => {
     e.preventDefault();
     const response = await fetch(`http://localhost:5000/api/v1/clients/search?name=${searchQuery}`);
     if (response.ok) {
       const data = await response.json();
-      setSearchedClient(data); // Assuming the response contains the client object
+      setSearchedClient(data);
     } else {
       alert('Client not found!');
     }
@@ -34,10 +37,9 @@ const Home = () => {
     });
 
     if (response.ok) {
-      alert('Client registered!');
-      setClientName('');
-      setClientGender('');
-      setClientAge('');
+      const data = await response.json();
+      
+      navigate(`/profile/${data.id}`);
     } else {
       alert('Error registering client');
     }
@@ -107,3 +109,4 @@ const Home = () => {
 };
 
 export default Home;
+
