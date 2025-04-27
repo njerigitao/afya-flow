@@ -11,11 +11,8 @@ function App() {
         <Heading size="md">Afya Flow</Heading>
         <Spacer />
         <Flex gap={4}>
-          <Link as={RouterLink} to="/Home" _hover={{ textDecoration: "underline" }}>
-          Home
-          </Link>
           <Link as={RouterLink} to="/" _hover={{ textDecoration: "underline" }}>
-            Clients
+            Home
           </Link>
           <Link as={RouterLink} to="/programs" _hover={{ textDecoration: "underline" }}>
             Programs

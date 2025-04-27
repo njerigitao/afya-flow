@@ -67,7 +67,8 @@ const Profile = () => {
 
   if (!client) return <Text>Loading...</Text>;
 
-  const enrolledProgramNames = new Set(client.programs);
+  // Ensure client.programs is defined and initialized as an empty array if undefined
+  const enrolledProgramIds = new Set(client.programs ? client.programs.map((program) => program.id) : []);
 
   return (
     <Box p={6}>
@@ -78,9 +79,13 @@ const Profile = () => {
       <Box mt={6}>
         <Text fontSize="xl" fontWeight="bold" mb={2}>Programs Enrolled:</Text>
         <ul>
-          {client.programs.map((program) => (
-            <li key={program}>{program}</li>
-          ))}
+          {client.programs && client.programs.length > 0 ? (
+            client.programs.map((program) => (
+              <li key={program.id}>{program.name}</li>
+            ))
+          ) : (
+            <Text>No programs enrolled yet.</Text>
+          )}
         </ul>
       </Box>
 
@@ -92,7 +97,7 @@ const Profile = () => {
               key={program.id}
               value={program.id}
               isChecked={selectedPrograms.includes(program.id)}
-              isDisabled={enrolledProgramNames.has(program.name)}
+              isDisabled={enrolledProgramIds.has(program.id)} // Disable based on program ID
               onChange={() => handleCheckboxChange(program.id)}
               sx={{
                 _checked: {
@@ -108,7 +113,7 @@ const Profile = () => {
                 py: 2,
               }}
             >
-              {program.name} {enrolledProgramNames.has(program.name) && "(Already enrolled)"}
+              {program.name} {enrolledProgramIds.has(program.id) && "(Already enrolled)"}
             </Checkbox>
           ))}
         </Stack>

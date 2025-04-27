@@ -11,13 +11,20 @@ def create_program():
     db.session.commit()
     return jsonify({"message": "Program created", "program": name})
 
+# Fetch all programs
+@main.route('/programs', methods=['GET'])
+def get_programs():
+    programs = Program.query.all()
+    program_list = [{"id": program.id, "name": program.name} for program in programs]
+    return jsonify(program_list)
+
 @main.route("/clients", methods=["POST"])
 def register_client():
     data = request.json
     client = Client(name=data["name"], gender=data.get("gender"), age=data.get("age"))
     db.session.add(client)
     db.session.commit()
-    return jsonify({"message": "Client registered", "client_id": client.id})
+    return jsonify({"id": client.id, "message": "Client registered"})
 
 @main.route("/clients/<int:id>/enroll", methods=["POST"])
 def enroll_client(id):
