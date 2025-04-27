@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, Button, Select, FormControl, FormLabel } from '@chakra-ui/react';
+import { Box, Button, Checkbox, FormControl, FormLabel, Stack, Text } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
 
 const Profile = () => {
@@ -25,6 +25,14 @@ const Profile = () => {
     fetchPrograms();
   }, [id]);
 
+  const handleCheckboxChange = (programId) => {
+    if (selectedPrograms.includes(programId)) {
+      setSelectedPrograms(selectedPrograms.filter((id) => id !== programId));
+    } else {
+      setSelectedPrograms([...selectedPrograms, programId]);
+    }
+  };
+
   const handleEnroll = async () => {
     const response = await fetch(`http://localhost:5000/api/v1/clients/${id}/enroll`, {
       method: 'POST',
@@ -39,37 +47,43 @@ const Profile = () => {
     }
   };
 
-  if (!client) return <p>Loading...</p>;
+  if (!client) return <Text>Loading...</Text>;
 
   return (
-    <Box>
-      <h2>{client.name}</h2>
-      <p>Gender: {client.gender}</p>
-      <p>Age: {client.age}</p>
-      <h3>Programs Enrolled:</h3>
+    <Box p={4}>
+      <Text fontSize="2xl" fontWeight="bold">{client.name}</Text>
+      <Text>Gender: {client.gender}</Text>
+      <Text>Age: {client.age}</Text>
+
+      <Text mt={4} fontSize="lg" fontWeight="bold">Programs Enrolled:</Text>
       <ul>
         {client.programs.map((program) => (
           <li key={program}>{program}</li>
         ))}
       </ul>
-      <FormControl>
-        <FormLabel>Enroll in Programs</FormLabel>
-        <Select
-          multiple
-          value={selectedPrograms}
-          onChange={(e) =>
-            setSelectedPrograms([...e.target.selectedOptions].map((option) => option.value))
-          }
-        >
+
+      <FormControl mt={6}>
+        <FormLabel>Select Programs to Enroll</FormLabel>
+        <Stack spacing={2}>
           {programs.map((program) => (
-            <option key={program.id} value={program.id}>
+            <Checkbox
+              key={program.id}
+              value={program.id}
+              isChecked={selectedPrograms.includes(program.id)}
+              onChange={() => handleCheckboxChange(program.id)}
+            >
               {program.name}
-            </option>
+            </Checkbox>
           ))}
-        </Select>
+        </Stack>
       </FormControl>
-      <Button onClick={handleEnroll}>Enroll Client</Button>
+
+      <Button mt={4} colorScheme="blue" onClick={handleEnroll}>
+        Enroll Client
+      </Button>
     </Box>
+
+   
   );
 };
 

@@ -30,11 +30,27 @@ def enroll_client(id):
     db.session.commit()
     return jsonify({"message": "Client enrolled in programs"})
 
-@main.route("/clients/search", methods=["GET"])
+@main.route('/clients/search', methods=['GET'])
 def search_clients():
-    name = request.args.get("name")
-    clients = Client.query.filter(Client.name.ilike(f"%{name}%")).first()
-    return jsonify([{"name": c.name, "age": c.age, "gender": c.gender, "programs": [program.name for program in client.programs]} for c in clients])
+    name = request.args.get('name')
+    client = Client.query.filter_by(name=name).first()
+
+    if client:
+        return jsonify({
+            "name": client.name,
+            "age": client.age,
+            "gender": client.gender,
+            "programs": [program.name for program in client.programs]
+        })
+    else:
+        return jsonify({"message": "Client not found"}), 404
+
+
+#@main.route("/clients/search", methods=["GET"])
+#def search_clients():
+    #name = request.args.get("name")
+    #clients = Client.query.filter(Client.name.ilike(f"%{name}%")).first()
+    #return jsonify([{"name": c.name, "age": c.age, "gender": c.gender, "programs": [program.name for program in client.programs]} for c in clients])
 
 @main.route("/clients/<int:id>", methods=["GET"])
 def client_profile(id):
