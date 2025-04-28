@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Button, Input, FormControl, FormLabel, Text } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom'; 
+import BASE_URL from './config';
 
 const Home = () => {
   const [clientName, setClientName] = useState('');
@@ -14,7 +15,7 @@ const Home = () => {
   // Search client by name
   const handleSearch = async (e) => {
     e.preventDefault();
-    const response = await fetch(`http://localhost:5000/api/v1/clients/search?name=${searchQuery}`);
+    const response = await fetch(`${BASE_URL}/api/v1/clients/search?name=${searchQuery}`);
     if (response.ok) {
       const data = await response.json();
       setSearchedClient(data);
@@ -26,7 +27,7 @@ const Home = () => {
   // Register new client
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await fetch('http://localhost:5000/api/v1/clients', {
+    const response = await fetch(`${BASE_URL}/api/v1/clients`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

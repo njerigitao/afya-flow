@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Box, Button, Checkbox, FormControl, FormLabel, Stack, Text, useToast } from '@chakra-ui/react';
 import { useParams } from 'react-router-dom';
+import BASE_URL from './config';
 
 const Profile = () => {
   const { id } = useParams();
@@ -11,13 +12,13 @@ const Profile = () => {
 
   useEffect(() => {
     const fetchClient = async () => {
-      const response = await fetch(`http://localhost:5000/api/v1/clients/${id}`);
+      const response = await fetch(`${BASE_URL}/api/v1/clients/${id}`);
       const data = await response.json();
       setClient(data);
     };
 
     const fetchPrograms = async () => {
-      const response = await fetch('http://localhost:5000/api/v1/programs');
+      const response = await fetch(`${BASE_URL}/api/v1/programs`);
       const data = await response.json();
       setPrograms(data);
     };
@@ -35,7 +36,7 @@ const Profile = () => {
   };
 
   const handleEnroll = async () => {
-    const response = await fetch(`http://localhost:5000/api/v1/clients/${id}/enroll`, {
+    const response = await fetch(`${BASE_URL}/api/v1/clients/${id}/enroll`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ program_ids: selectedPrograms }),

@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { Box, Button, Input, FormControl, FormLabel } from "@chakra-ui/react";
+import BASE_URL from "./config";
 
 const Programs = () => {
     const [programName, setProgramName] = useState('');
   
     const handleSubmit = async (e) => {
       e.preventDefault();
-      const response = await fetch('http://localhost:5000/api/v1/programs', {
+      const response = await fetch(`${BASE_URL}/api/v1/programs`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: programName }),
