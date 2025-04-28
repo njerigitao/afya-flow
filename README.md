@@ -42,8 +42,11 @@ Run the frontend:
 
 npm start
 
+Presentation
+Link to Presentation(https://www.canva.com/design/DAGl14JXotE/xbA4HrZOX1Dk8vWcPq5Lbg/view?utm_content=DAGl14JXotE&utm_campaign=designshare&utm_medium=link&utm_source=recording_view)
+
 Demo
-Link to Demo Video (Coming soon)
+Link to Demo Video (https://www.loom.com/share/69198b12693c4afe8a2753b4c974b13a)
 
 Deployment
-Live Application Link (Coming soon)
+Live Application Link (https://afya-flow-abqw.vercel.app/)
